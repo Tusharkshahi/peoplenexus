@@ -1,36 +1,149 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PeopleNexus - HR Management System
 
-## Getting Started
+An intelligent Human Resource Management System (HRMS) built with modern web technologies.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Dashboard**: Overview of key HR metrics and statistics
+- **Recruitment**: Job posting management and candidate tracking
+- **Onboarding**: New hire onboarding process management
+- **Leave Management**: Employee leave requests and calendar view
+- **Payroll**: Payroll processing and payslip generation
+- **Performance**: Performance reviews and OKR tracking
+- **Authentication**: Secure login and registration system
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Shadcn UI
+- **State Management**: Redux Toolkit
+- **Icons**: Lucide React
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── (auth)/              # Authentication pages
+│   │   ├── login/
+│   │   └── register/
+│   ├── (dashboard)/         # Protected dashboard pages
+│   │   ├── layout.tsx       # Dashboard layout
+│   │   ├── dashboard/
+│   │   ├── recruitment/
+│   │   ├── onboarding/
+│   │   ├── leave/
+│   │   ├── payroll/
+│   │   └── performance/
+│   ├── components/          # Shared components
+│   │   ├── ui/             # Shadcn UI components
+│   │   └── shared/         # Custom shared components
+│   ├── lib/                # Utility functions
+│   ├── store/              # Redux store
+│   │   └── features/       # Redux slices
+│   ├── layout.tsx          # Root layout
+│   └── page.tsx            # Landing page
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js 18+ 
+- npm or yarn
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd peoplenexus-frontend
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Run the development server:
+```bash
+npm run dev
+```
 
-## Deploy on Vercel
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📱 Available Pages
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Dashboard**: `/dashboard` - Main dashboard with HR metrics
+- **Recruitment**: `/recruitment` - Job posting management
+- **Onboarding**: `/onboarding` - New hire tracking
+- **Leave Management**: `/leave` - Leave requests and calendar
+- **Payroll**: `/payroll` - Payroll processing
+- **Performance**: `/performance` - Performance reviews and OKRs
+- **Login**: `/login` - Authentication page
+- **Register**: `/register` - Registration page
+
+## 🎨 UI Components
+
+The project uses Shadcn UI components for a consistent and accessible design:
+
+- Button, Card, Input, Label
+- Table, Avatar, Calendar
+- Badge, Progress
+- And more...
+
+## 🔧 Development
+
+### Adding New Components
+
+1. Use Shadcn UI CLI to add new components:
+```bash
+npx shadcn@latest add <component-name>
+```
+
+2. Create custom components in `src/components/shared/`
+
+### State Management
+
+The app uses Redux Toolkit for state management:
+
+- Store configuration: `src/store/store.ts`
+- Auth slice: `src/store/features/authSlice.ts`
+
+### Styling
+
+- Tailwind CSS for utility-first styling
+- Custom CSS variables for theming
+- Responsive design with mobile-first approach
+
+## 📦 Build and Deploy
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+### Start Production Server
+
+```bash
+npm start
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For support and questions, please open an issue in the repository.
