@@ -97,16 +97,28 @@ class AzureOpenAIClient:
             }
 
     def _create_ranking_prompt(self, resume_content: str, job_requirements: Dict[str, Any], criteria: List[str]) -> str:
+        # Provide safe defaults for missing fields
+        title = job_requirements.get('title', 'Position')
+        description = job_requirements.get('description', 'No description provided')
+        required_skills = job_requirements.get('required_skills', [])
+        preferred_skills = job_requirements.get('preferred_skills', [])
+        experience_years = job_requirements.get('experience_years', 'Not specified')
+        education_level = job_requirements.get('education_level', 'Not specified')
+        
+        # Convert skills to strings if they're lists
+        required_skills_str = ', '.join(required_skills) if required_skills else 'None specified'
+        preferred_skills_str = ', '.join(preferred_skills) if preferred_skills else 'None specified'
+        
         return f"""
 Please analyze the following resume for ranking purposes based on the job requirements.
 
 JOB REQUIREMENTS:
-Title: {job_requirements['title']}
-Description: {job_requirements['description']}
-Required Skills: {', '.join(job_requirements['required_skills'])}
-Preferred Skills: {', '.join(job_requirements.get('preferred_skills', []))}
-Experience Required: {job_requirements.get('experience_years', 'Not specified')} years
-Education Level: {job_requirements.get('education_level', 'Not specified')}
+Title: {title}
+Description: {description}
+Required Skills: {required_skills_str}
+Preferred Skills: {preferred_skills_str}
+Experience Required: {experience_years} years
+Education Level: {education_level}
 
 RESUME CONTENT:
 {resume_content}
@@ -133,16 +145,28 @@ Focus on:
 """
 
     def _create_screening_prompt(self, resume_content: str, job_requirements: Dict[str, Any], criteria: List[str]) -> str:
+        # Provide safe defaults for missing fields
+        title = job_requirements.get('title', 'Position')
+        description = job_requirements.get('description', 'No description provided')
+        required_skills = job_requirements.get('required_skills', [])
+        preferred_skills = job_requirements.get('preferred_skills', [])
+        experience_years = job_requirements.get('experience_years', 'Not specified')
+        education_level = job_requirements.get('education_level', 'Not specified')
+        
+        # Convert skills to strings if they're lists
+        required_skills_str = ', '.join(required_skills) if required_skills else 'None specified'
+        preferred_skills_str = ', '.join(preferred_skills) if preferred_skills else 'None specified'
+        
         return f"""
 Please screen the following resume for the job position and provide a pass/fail decision with detailed analysis.
 
 JOB REQUIREMENTS:
-Title: {job_requirements['title']}
-Description: {job_requirements['description']}
-Required Skills: {', '.join(job_requirements['required_skills'])}
-Preferred Skills: {', '.join(job_requirements.get('preferred_skills', []))}
-Experience Required: {job_requirements.get('experience_years', 'Not specified')} years
-Education Level: {job_requirements.get('education_level', 'Not specified')}
+Title: {title}
+Description: {description}
+Required Skills: {required_skills_str}
+Preferred Skills: {preferred_skills_str}
+Experience Required: {experience_years} years
+Education Level: {education_level}
 
 RESUME CONTENT:
 {resume_content}
