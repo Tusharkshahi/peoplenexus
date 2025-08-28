@@ -16,8 +16,8 @@ class AzureOpenAIClient:
             azure_endpoint=settings.azure_openai_endpoint
         )
         self.deployment_name = settings.azure_openai_deployment_name
-    # concurrency limiter
-    self._semaphore = asyncio.Semaphore(settings.ai_max_concurrency)
+        # concurrency limiter
+        self._semaphore = asyncio.Semaphore(settings.ai_max_concurrency)
 
     def _validate_config(self) -> None:
         missing = []
