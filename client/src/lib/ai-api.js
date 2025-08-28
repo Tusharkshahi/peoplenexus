@@ -149,31 +149,70 @@ class AIResumeAPI {
 
   // Helper method to extract text from file
   async extractTextFromFile(file) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const fileType = this.getFileFormat(file.name);
+        
+        if (fileType === 'pdf') {
+          // Handle PDF files
+          try {
+            const arrayBuffer = await this._readFileAsArrayBuffer(file);
+            const pdfParse = await import('pdf-parse/es6');
+            const pdfData = await pdfParse.default(arrayBuffer);
+            resolve({
+              content: pdfData.text,
+              filename: file.name,
+              format: 'pdf'
+            });
+          } catch (pdfError) {
+            console.warn('PDF parsing failed, falling back to binary read:', pdfError);
+            reject(new Error(`Cannot extract text from PDF file. Please convert to text format or use a different file.`));
+          }
+        } else if (fileType === 'docx') {
+          // Handle DOCX files
+          try {
+            const arrayBuffer = await this._readFileAsArrayBuffer(file);
+            const mammoth = await import('mammoth');
+            const result = await mammoth.extractRawText({ arrayBuffer });
+            resolve({
+              content: result.value,
+              filename: file.name,
+              format: 'docx'
+            });
+          } catch (docxError) {
+            console.warn('DOCX parsing failed, falling back to binary read:', docxError);
+            reject(new Error(`Cannot extract text from DOCX file. Please convert to text format or use a different file.`));
+          }
+        } else {
+          // Handle text files
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            try {
+              resolve({
+                content: e.target.result,
+                filename: file.name,
+                format: 'text'
+              });
+            } catch (error) {
+              reject(error);
+            }
+          };
+          reader.onerror = () => reject(new Error('Failed to read file'));
+          reader.readAsText(file);
+        }
+      } catch (error) {
+        reject(new Error(`Failed to extract text from ${file.name}: ${error.message}`));
+      }
+    });
+  }
+
+  // Helper method to read file as ArrayBuffer
+  _readFileAsArrayBuffer(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      
-      reader.onload = (e) => {
-        try {
-          const content = e.target.result;
-          resolve({
-            content: content,
-            filename: file.name,
-            format: this.getFileFormat(file.name)
-          });
-        } catch (error) {
-          reject(error);
-        }
-      };
-      
-      reader.onerror = () => reject(new Error('Failed to read file'));
-      
-      if (file.type === 'text/plain' || file.type === 'text/csv') {
-        reader.readAsText(file);
-      } else {
-        // For other file types, we'll need to implement proper parsing
-        // For now, we'll read as text and let the AI handle it
-        reader.readAsText(file);
-      }
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = () => reject(new Error('Failed to read file as ArrayBuffer'));
+      reader.readAsArrayBuffer(file);
     });
   }
 
