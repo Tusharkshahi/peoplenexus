@@ -141,9 +141,9 @@ export default function AIResumeRanker() {
         try {
           const data = await aiApi.extractTextFromFile(file);
           extracted.push(data);
-        } catch (err) {
+        } catch (err: any) {
           console.error(`Failed to read file ${file.name}:`, err);
-          setError(`Failed to read file ${file.name}`);
+          setError(`Failed to read file ${file.name}: ${err.message || 'Unknown error'}`);
         }
       }
 

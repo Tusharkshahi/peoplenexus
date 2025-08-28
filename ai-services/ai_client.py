@@ -203,13 +203,19 @@ Please provide a detailed screening analysis in the following JSON format:
     "strengths": ["strength1", "strength2"]
 }}
 
+SCREENING GUIDELINES:
+- PASS if overall_score >= 60 AND no critical red flags AND meets basic education/skills requirements
+- FAIL only if overall_score < 60 OR has critical red flags OR completely lacks required qualifications
+- Be generous with borderline candidates - focus on potential and growth opportunities
+- Consider that skills can be learned and experience can be gained
+
 Focus on:
-1. Whether the candidate meets minimum requirements
-2. Skills gap analysis
-3. Experience relevance and duration
-4. Education requirements
-5. Any red flags or concerns
-6. Candidate strengths
+1. Whether the candidate meets minimum requirements (be reasonable about experience gaps)
+2. Skills gap analysis (consider transferable skills)
+3. Experience relevance and duration (don't be overly strict on years if relevance is high)
+4. Education requirements (consider equivalent experience)
+5. Any red flags or concerns (focus on serious issues only)
+6. Candidate strengths and potential
 """
 
     def _parse_ranking_response(self, response: str) -> Dict[str, Any]:

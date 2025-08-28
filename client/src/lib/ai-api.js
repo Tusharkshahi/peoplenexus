@@ -154,19 +154,33 @@ class AIResumeAPI {
         const fileType = this.getFileFormat(file.name);
         
         if (fileType === 'pdf') {
-          // Handle PDF files
+          // Handle PDF files with PDF.js
           try {
             const arrayBuffer = await this._readFileAsArrayBuffer(file);
-            const pdfParse = await import('pdf-parse/es6');
-            const pdfData = await pdfParse.default(arrayBuffer);
+            const pdfjsLib = await import('pdfjs-dist');
+            
+            // Set worker path for PDF.js - use a compatible CDN version
+            pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@5.4.54/build/pdf.worker.min.mjs`;
+            
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let fullText = '';
+            
+            // Extract text from all pages
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+              const page = await pdf.getPage(pageNum);
+              const textContent = await page.getTextContent();
+              const pageText = textContent.items.map(item => item.str).join(' ');
+              fullText += pageText + ' ';
+            }
+            
             resolve({
-              content: pdfData.text,
+              content: fullText.trim(),
               filename: file.name,
               format: 'pdf'
             });
           } catch (pdfError) {
-            console.warn('PDF parsing failed, falling back to binary read:', pdfError);
-            reject(new Error(`Cannot extract text from PDF file. Please convert to text format or use a different file.`));
+            console.warn('PDF parsing failed:', pdfError);
+            reject(new Error(`Cannot extract text from PDF file: ${pdfError.message}. Please convert to text format or use a different file.`));
           }
         } else if (fileType === 'docx') {
           // Handle DOCX files
@@ -180,8 +194,8 @@ class AIResumeAPI {
               format: 'docx'
             });
           } catch (docxError) {
-            console.warn('DOCX parsing failed, falling back to binary read:', docxError);
-            reject(new Error(`Cannot extract text from DOCX file. Please convert to text format or use a different file.`));
+            console.warn('DOCX parsing failed:', docxError);
+            reject(new Error(`Cannot extract text from DOCX file: ${docxError.message}. Please convert to text format or use a different file.`));
           }
         } else {
           // Handle text files

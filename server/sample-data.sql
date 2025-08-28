@@ -212,14 +212,14 @@ BEGIN
     SELECT COUNT(*) INTO leave_count FROM leave_requests;
     SELECT COUNT(*) INTO payroll_count FROM payroll;
     
-    RAISE NOTICE '📊 Sample Data Inserted Successfully!';
-    RAISE NOTICE '👥 Users: %', user_count;
-    RAISE NOTICE '🧑‍💼 Employees: %', employee_count;
-    RAISE NOTICE '🏢 Departments: %', department_count;
-    RAISE NOTICE '🏖️ Leave Requests: %', leave_count;
-    RAISE NOTICE '💰 Payroll Records: %', payroll_count;
+    RAISE NOTICE ' Sample Data Inserted Successfully!';
+    RAISE NOTICE ' Users: %', user_count;
+    RAISE NOTICE ' Employees: %', employee_count;
+    RAISE NOTICE ' Departments: %', department_count;
+    RAISE NOTICE ' Leave Requests: %', leave_count;
+    RAISE NOTICE ' Payroll Records: %', payroll_count;
     RAISE NOTICE '';
-    RAISE NOTICE '🔑 Login Credentials (password: password123):';
+    RAISE NOTICE ' Login Credentials (password: password123):';
     RAISE NOTICE '   Admin: admin@peoplenexus.com';
     RAISE NOTICE '   HR: hr@peoplenexus.com';
     RAISE NOTICE '   Manager: manager@peoplenexus.com';

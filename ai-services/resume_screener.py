@@ -24,6 +24,18 @@ class ResumeScreener:
                 ["skills_match", "experience", "education", "red_flags"]
             )
             
+            # Apply reasonable pass/fail logic as a fallback
+            # If AI was too strict, override based on reasonable criteria
+            overall_score = screening_result.get("overall_score", 0)
+            has_critical_red_flags = screening_result.get("breakdown", {}).get("red_flags", {}).get("found", False)
+            
+            # Override passed flag if the AI was too conservative
+            if overall_score >= 60 and not has_critical_red_flags:
+                screening_result["passed"] = True
+            elif overall_score < 50 or has_critical_red_flags:
+                screening_result["passed"] = False
+            # For scores between 50-60, keep AI's decision
+            
             # Create screening result object
             result = ScreeningResult(
                 passed=screening_result["passed"],
