@@ -69,14 +69,17 @@ Optional: AI service
 ## ai resume features
 
 - Upload: stores files to Azure Blob
-- Rank: ranks multiple resumes against a job description
+- Rank: ranks multiple resumes against a job description  
 - Screen: evaluates a single resume
+- File Support: PDF, DOCX, and TXT files with automatic text extraction
 
 Client calls are in `client/src/lib/ai-api.js`. FastAPI endpoints (ai-services):
 - POST /upload, GET /list, DELETE /delete
 - POST /rank, POST /screen, GET /health
 
 Resilience built‑in: bounded concurrency, retries/backoff for 429/5xx, request timeouts; clear 429/504 responses.
+
+Text extraction libraries: pdf-parse (PDF), mammoth (DOCX), native FileReader (TXT).
 
 ## scripts
 
